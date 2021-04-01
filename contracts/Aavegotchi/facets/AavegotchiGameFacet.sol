@@ -160,6 +160,22 @@ contract AavegotchiGameFacet is Modifiers {
         emit SetAavegotchiName(_tokenId, existingName, _name);
     }
 
+	// Added by SDP
+    function pet(uint256[] _tokenIds) external {
+        address sender = LibMeta.msgSender();
+        for (uint256 i; i < _tokenIds.length; i++) {
+            uint256 tokenId = _tokenIds[i];
+
+            address owner = s.aavegotchis[tokenId].owner;
+            require(
+                sender == owner || s.operators[owner][sender] || s.approved[tokenId] == sender,
+                "AavegotchiGameFacet: Not owner of token or approved"
+            );
+            LibAavegotchi.interact(tokenId);
+			s.aavegotchis[tokenId].petter = sender
+        }
+    }
+
     function interact(uint256[] calldata _tokenIds) external {
         address sender = LibMeta.msgSender();
         for (uint256 i; i < _tokenIds.length; i++) {

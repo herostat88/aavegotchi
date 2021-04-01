@@ -45,6 +45,7 @@ struct Aavegotchi {
     uint40 lastInteracted; //The last time this Aavegotchi was interacted with
     bool locked;
     address escrow; //The escrow address this Aavegotchi manages.
+	address petter;
 }
 
 struct Dimensions {
